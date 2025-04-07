@@ -90,27 +90,27 @@ void depositMoney(double &balance, double amount) {     // Option/Case 2
     if (amount > 0) {
     balance += amount;
     } else {
-    cout<< "Error. Amount has to be positive "<<endl;
+cout<< "Error. Amount has to be positive "<<endl;
     }
 }
 
 
 
 void withdrawalMoney(double &balance, double amount, double dailyLimit) {    // Option/Case 3
-    if (amount > 0) {
-    if (amount <= balance) {
-    if (dailyWithdrawal + amount <= dailyLimit) {
-        balance -= amount;
-        dailyWithdrawal += amount;
-        cout<< "Your withdrawal was successful"<<endl;
-            } else {
-        cout<< "You have reached the daily withdrawal limit of 1000 "<<dailyLimit<< " Your total is" <<dailyWithdrawal<< "." <<endl;
-            }
-        } else {
-            cout<< "Decline. You cannot withdraw more than your current balance"<<endl;
+if (amount > 0) {
+if (amount <= balance) {
+if (dailyWithdrawal + amount <= dailyLimit) {
+    balance -= amount;
+    dailyWithdrawal += amount;
+    cout<< "Your withdrawal was successful"<<endl;
+} else {
+    cout<< "You have reached the daily withdrawal limit of 1000 "<<dailyLimit<< " Your total is" <<dailyWithdrawal<< "." <<endl;
         }
-    } else {
-        cout<< "Denied. Withdrawal amount has to be greater than zero"<<endl;
+} else {
+    cout<< "Decline. You cannot withdraw more than your current balance"<<endl;
+        }
+} else {
+    cout<< "Denied. Withdrawal amount has to be greater than zero"<<endl;
     }
 }
 
