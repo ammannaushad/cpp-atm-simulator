@@ -9,24 +9,30 @@ using namespace std;
 void displayMenu();
 double checkBalance(double balance); 
 void depositMoney(double &balance, double amount);
-void withdrawalMoney(double &balance, double amount, double dailyLimit);
+void withdrawalMoney(double &balance, double amount, double &dailyWithdrawal, double dailyLimit);
 void exitATM();
+
+
+double dailyWithdrawal = 0.0;
 
 int main() {
 double balance = 0.0;
 double depositAmount = 0.0;
 double withdrawalAmount = 0.0;
 double dailyLimit = 1000.0;
-int options;
+int options = 0;
 
+cout<< "Welcome to the ATM"<<endl;
+    
 do {
     displayMenu();
     cout<< "Enter your choice: ";
     cin>> options;
 
 switch (options) {
-    case 1:             // Check balance
-cout<< "Your current balance is: "<< checkBalance(balance)<<endl;
+    case 1:               // Check balance
+    balance = checkBalance(balance);
+cout<< "Your current balance is "<<fixed<<setprecision(2)<<balance<<endl;
     break;
 
 
@@ -34,34 +40,26 @@ cout<< "Your current balance is: "<< checkBalance(balance)<<endl;
     case 2: {            // Depositing Money
 cout<< "Enter the deposit amount: ";
 cin>> depositAmount;
-
-    if (depositAmount <= 0) {
-    cout<< "Deposit amount has to be positive "<<endl;
-    } else {
-    depositMoney(balance, depositAmount);
-    }
+        
+depositMoney(balance, depositAmount);
+cout<< "The amount has been deposited "<<fixed<<setprecision(2)<<depositAmount<< "Your new balance is "<<fixed<<setprecision(2)<<balance<<endl;
     break;
 }
-
 
 
     case 3: {           // Withdrawing Money
-cout<< "Enter the withdrawal amount: ";
+cout<< "Enter the withdrawal amount ";
 cin>> withdrawalAmount;
 
-    if (withdrawalAmount <= 0) {
-    cout<< "Withdrawal amount has to be positive "<<endl;
-    } else {
-    withdrawalMoney(balance, withdrawalAmount, dailyLimit);
-    }
+withdrawalMoney(balance, withdrawalAmount, dailyWithdrawal, dailyLimit);
+cout<< "Your new balance is "<<fixed<<setprecision(2)<<balance<<endl;
     break;
 }
-
 
 
     case 4:        // Exiting the ATM
 exitATM();
-return 0;
+break;
 
 default:
 cout<< "Error. Choose one of the following options "<<endl;
@@ -89,26 +87,33 @@ double checkBalance(double balance) {     // Option/Case 1
 
 
 void depositMoney(double &balance, double amount) {     // Option/Case 2
+    if (amount > 0) {
     balance += amount;
-    cout<< "Your transaction has been successful: "<<amount<<endl;
-    cout<< "Your new balance is " <<balance<<endl;
+    } else {
+    cout<< "Error. Amount has to be positive "<<endl;
+    }
 }
 
 
 
 void withdrawalMoney(double &balance, double amount, double dailyLimit) {    // Option/Case 3
-    if (amount <= 0) {
-        cout<< "Denied. Withdrawal amount has to be greater than zero "<<endl;
-    } else if (amount > balance) {
-        cout<< "Decline. Your current balance is "<<balance<<endl;
-    } else if (amount > dailyLimit) {
-        cout<< "The daily withdrawal limit is "<<dailyLimit<<endl;
-    } else {
+    if (amount > 0) {
+    if (amount <= balance) {
+    if (dailyWithdrawal + amount <= dailyLimit) {
         balance -= amount;
-        cout<< "Your transaction has been successful "<<amount<<endl;
-        cout<< "Your new balance is " <<balance<<endl;
+        dailyWithdrawal += amount;
+        cout<< "Your withdrawal was successful"<<endl;
+            } else {
+        cout<< "You have reached the daily withdrawal limit of 1000 "<<dailyLimit<< " Your total is" <<dailyWithdrawal<< "." <<endl;
+            }
+        } else {
+            cout<< "Decline. You cannot withdraw more than your current balance"<<endl;
+        }
+    } else {
+        cout<< "Denied. Withdrawal amount has to be greater than zero"<<endl;
     }
 }
+
 
 
 
